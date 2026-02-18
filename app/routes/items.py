@@ -15,13 +15,13 @@ def get_items(
     skip: int = Query(default=0, ge=0),
     limit: int = Query(default=100, ge=1, le=MAX_ITEMS_PER_PAGE),
     db: Session = Depends(get_db),
-):
+) -> list[ItemResponse]:
     """Récupère la liste des items avec pagination."""
     return ItemService.get_all(db, skip, limit)
 
 
 @router.get("/{item_id}", response_model=ItemResponse)
-def get_item(item_id: int, db: Session = Depends(get_db)):
+def get_item(item_id: int, db: Session = Depends(get_db)) -> ItemResponse:
     item = ItemService.get_by_id(db, item_id)
     if not item:
         raise HTTPException(
@@ -32,12 +32,14 @@ def get_item(item_id: int, db: Session = Depends(get_db)):
 
 
 @router.post("/", response_model=ItemResponse, status_code=status.HTTP_201_CREATED)
-def create_item(item_data: ItemCreate, db: Session = Depends(get_db)):
+def create_item(item_data: ItemCreate, db: Session = Depends(get_db)) -> ItemResponse:
     return ItemService.create(db, item_data)
 
 
 @router.put("/{item_id}", response_model=ItemResponse)
-def update_item(item_id: int, item_data: ItemUpdate, db: Session = Depends(get_db)):
+def update_item(
+    item_id: int, item_data: ItemUpdate, db: Session = Depends(get_db)
+) -> ItemResponse:
     item = ItemService.update(db, item_id, item_data)
     if not item:
         raise HTTPException(
@@ -48,7 +50,7 @@ def update_item(item_id: int, item_data: ItemUpdate, db: Session = Depends(get_d
 
 
 @router.delete("/{item_id}", status_code=status.HTTP_204_NO_CONTENT)
-def delete_item(item_id: int, db: Session = Depends(get_db)):
+def delete_item(item_id: int, db: Session = Depends(get_db)) -> None:
     deleted = ItemService.delete(db, item_id)
     if not deleted:
         raise HTTPException(
