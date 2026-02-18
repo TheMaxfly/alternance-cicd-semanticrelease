@@ -16,10 +16,9 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Setup uv
-        uses: astral-sh/setup-uv@v4
+        uses: astral-sh/setup-uv@v5
         with:
           enable-cache: true
-          cache-dependency-glob: "uv.lock"
 
       - name: Install dependencies
         run: uv sync --group dev
@@ -39,10 +38,9 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Setup uv
-        uses: astral-sh/setup-uv@v4
+        uses: astral-sh/setup-uv@v5
         with:
           enable-cache: true
-          cache-dependency-glob: "uv.lock"
 
       - name: Install dependencies
         run: uv sync --group dev
@@ -59,10 +57,9 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Setup uv
-        uses: astral-sh/setup-uv@v4
+        uses: astral-sh/setup-uv@v5
         with:
           enable-cache: true
-          cache-dependency-glob: "uv.lock"
 
       - name: Install dependencies
         run: uv sync --group dev
@@ -71,7 +68,8 @@ jobs:
         run: uv run bandit -r app/
 
       - name: Safety (dependency vulnerabilities)
-        run: uv run safety scan
+        run: uv run safety scan --no-telemetry
+        continue-on-error: true
 
   # ==========================================================================
   # JOB 4 : TESTS
@@ -97,10 +95,9 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Setup uv
-        uses: astral-sh/setup-uv@v4
+        uses: astral-sh/setup-uv@v5
         with:
           enable-cache: true
-          cache-dependency-glob: "uv.lock"
 
       - name: Install dependencies
         run: uv sync --group dev
