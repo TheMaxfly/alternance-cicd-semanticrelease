@@ -1,0 +1,30 @@
+[project]
+name = "training-ci-cd-semantic-release"
+version = "0.1.0"
+description = "CRUD API with PostgreSQL for managing items"
+requires-python = ">=3.13"
+
+# ============================================================================
+# DEPENDENCIES
+# ============================================================================
+dependencies = [
+    "fastapi[standard]>=0.121.0",
+    "psycopg2-binary>=2.9.11",
+    "sqlmodel>=0.0.27",
+]
+
+[dependency-groups]
+dev = [
+    "bandit>=1.9.3",
+    "diagrams>=0.24.4",
+    "mypy>=1.19.1",
+    "pytest>=9.0.2",
+    "python-semantic-release>=10.5.3",
+    "ruff>=0.15.1",
+    "safety>=3.7.0",
+]
+
+[tool.semantic_release]
+commit_parser = "conventional"
+version_toml = ["pyproject.toml:project.version"]
+changelog_file = "CHANGELOG.md"
