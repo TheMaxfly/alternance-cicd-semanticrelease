@@ -1474,7 +1474,7 @@ Exemples :
 
 ---
 
-### ✅ Validation Phase 5 
+### ✅ Validation Phase 5
 
 - [ ] Rapport de stress test complété
 - [ ] Résultats présentés

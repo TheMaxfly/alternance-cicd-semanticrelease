@@ -1,22 +1,22 @@
 # semanticrelease_rapport.md — SemVer, Conventional Commits & Python Semantic Release (PSR)
 
-**Date :** 2026-02-15 (Europe/Paris)  
-**Public cible :** Data Analyste / Développeur IA / Data Engineer  
+**Date :** 2026-02-15 (Europe/Paris)
+**Public cible :** Data Analyste / Développeur IA / Data Engineer
 **Objectif :** Documenter les concepts **SemVer** (versionnage sémantique), **Conventional Commits** (commits conventionnels) et expliquer le fonctionnement de **Python Semantic Release (PSR)** : configuration, génération du CHANGELOG, et création de releases GitHub.
 
 ---
 
 ## Acronymes (développés dès le début)
 
-- **API** : *Application Programming Interface* — interface logicielle (contrat d’utilisation d’un module/service).  
-- **CI/CD** : *Continuous Integration / Continuous Delivery (ou Deployment)* — intégration continue + livraison/déploiement continu.  
-- **CLI** : *Command Line Interface* — interface en ligne de commande.  
-- **IaC** : *Infrastructure as Code* — infrastructure décrite et gérée par du code (Terraform, Pulumi…).  
-- **PEP** : *Python Enhancement Proposal* — standard/proposition officielle Python.  
-- **PSR** : *Python Semantic Release* — outil d’automatisation de releases pour projets Python.  
-- **RFC 2119** : *Request for Comments* — standard définissant la signification de MUST/SHOULD/MAY, etc.  
-- **SCA** : *Software Composition Analysis* — analyse des dépendances (vulnérabilités, licences).  
-- **SemVer** : *Semantic Versioning* — versionnage sémantique (MAJOR.MINOR.PATCH).  
+- **API** : *Application Programming Interface* — interface logicielle (contrat d’utilisation d’un module/service).
+- **CI/CD** : *Continuous Integration / Continuous Delivery (ou Deployment)* — intégration continue + livraison/déploiement continu.
+- **CLI** : *Command Line Interface* — interface en ligne de commande.
+- **IaC** : *Infrastructure as Code* — infrastructure décrite et gérée par du code (Terraform, Pulumi…).
+- **PEP** : *Python Enhancement Proposal* — standard/proposition officielle Python.
+- **PSR** : *Python Semantic Release* — outil d’automatisation de releases pour projets Python.
+- **RFC 2119** : *Request for Comments* — standard définissant la signification de MUST/SHOULD/MAY, etc.
+- **SCA** : *Software Composition Analysis* — analyse des dépendances (vulnérabilités, licences).
+- **SemVer** : *Semantic Versioning* — versionnage sémantique (MAJOR.MINOR.PATCH).
 - **VCS** : *Version Control System* — système de gestion de versions (Git, etc.).
 
 ---
@@ -24,11 +24,11 @@
 ## 1) Qu’est-ce que le versionnage sémantique (SemVer) ?
 
 ### 1.1 Définition et intention
-Le **versionnage sémantique (SemVer)** est une convention qui donne un **sens** aux numéros de version : on peut déduire la **nature** et la **gravité** des changements d’une version à l’autre (correctif, nouvelle fonctionnalité compatible, rupture).  
-La spécification SemVer formalise cette convention et sert de base à de nombreux outils d’automatisation (release notes, bump de version, gestion de compatibilité).  
+Le **versionnage sémantique (SemVer)** est une convention qui donne un **sens** aux numéros de version : on peut déduire la **nature** et la **gravité** des changements d’une version à l’autre (correctif, nouvelle fonctionnalité compatible, rupture).
+La spécification SemVer formalise cette convention et sert de base à de nombreux outils d’automatisation (release notes, bump de version, gestion de compatibilité).
 
-**Référence :**  
-- https://semver.org/ (spec officielle)  
+**Référence :**
+- https://semver.org/ (spec officielle)
 - https://semver.org/lang/fr/spec/v2.0.0.html (traduction FR)
 
 ---
@@ -38,27 +38,27 @@ La spécification SemVer formalise cette convention et sert de base à de nombre
 ### 2.1 Règle générale
 Une version SemVer suit la forme :
 
-- **MAJOR.MINOR.PATCH**  
+- **MAJOR.MINOR.PATCH**
   Exemple : `2.4.1`
 
 ### 2.2 Quand bumper chaque niveau ?
 
 #### 2.2.1 Bump MAJOR (rupture de compatibilité)
-On incrémente **MAJOR** lorsqu’on introduit des **changements incompatibles** avec les consommateurs (API/librairie/service/contrat).  
+On incrémente **MAJOR** lorsqu’on introduit des **changements incompatibles** avec les consommateurs (API/librairie/service/contrat).
 Exemples “Data/IA” :
 - suppression/renommage d’un endpoint, d’un paramètre, d’un schéma attendu,
 - changement de format de sortie (colonnes, types) **sans compatibilité**,
 - modification d’une signature de fonction publique utilisée par d’autres dépôts.
 
 #### 2.2.2 Bump MINOR (ajout compatible)
-On incrémente **MINOR** lorsqu’on ajoute une fonctionnalité de manière **rétrocompatible**.  
+On incrémente **MINOR** lorsqu’on ajoute une fonctionnalité de manière **rétrocompatible**.
 Exemples “Data/IA” :
 - nouveau connecteur source, nouveau mode d’exécution, nouveau champ optionnel,
 - ajout d’une route API sans casser les routes existantes,
 - ajout de colonnes non-breaking (si consommateurs tolèrent des colonnes supplémentaires).
 
 #### 2.2.3 Bump PATCH (correctif compatible)
-On incrémente **PATCH** lorsqu’on corrige un bug **sans casser** l’API/le contrat.  
+On incrémente **PATCH** lorsqu’on corrige un bug **sans casser** l’API/le contrat.
 Exemples “Data/IA” :
 - correction d’un calcul, d’un filtre, d’un parsing,
 - correction d’un bug de performance/cas limite **sans modifier** le contrat public.
@@ -74,7 +74,7 @@ Exemples “Data/IA” :
 - lisibles pour les humains,
 - **parsables** par des outils automatiques (génération de changelog, bump de version, release automatisée).
 
-La spécification s’articule explicitement avec SemVer : **feat** → MINOR, **fix** → PATCH, et **BREAKING CHANGE** → MAJOR.  
+La spécification s’articule explicitement avec SemVer : **feat** → MINOR, **fix** → PATCH, et **BREAKING CHANGE** → MAJOR.
 
 **Référence :** https://www.conventionalcommits.org/fr/v1.0.0/
 
@@ -117,17 +117,17 @@ La spécification implique une interprétation SemVer automatique pour :
 - **fix** : correction de bug (corrélé PATCH)
 - **BREAKING CHANGE** : rupture (corrélé MAJOR)
 
-Les autres types sont autorisés (docs, test, perf, refactor, build, chore, ci…), et peuvent être utilisés par l’équipe, mais **n’impliquent pas** automatiquement un bump SemVer (sauf s’ils contiennent un breaking change).  
+Les autres types sont autorisés (docs, test, perf, refactor, build, chore, ci…), et peuvent être utilisés par l’équipe, mais **n’impliquent pas** automatiquement un bump SemVer (sauf s’ils contiennent un breaking change).
 
 **Référence :** https://www.conventionalcommits.org/fr/v1.0.0/
 
 ### 5.2 Indication de rupture (breaking change)
 Un breaking change peut être signalé de 2 façons :
 
-1) Via un `!` dans l’en-tête  
+1) Via un `!` dans l’en-tête
    Exemple : `feat(api)!: remove status endpoint`
 
-2) Via un footer en majuscules  
+2) Via un footer en majuscules
    Exemple :
    ```
    feat: change config inheritance behavior
@@ -163,10 +163,10 @@ Dans une automatisation de release basée sur Conventional Commits :
 4) la génération/mise à jour du **CHANGELOG**,
 5) la création d’un **tag Git** et (optionnellement) d’une **release** sur le VCS distant (ex. GitHub).
 
-PSR est conçu pour fonctionner en **CI/CD**, mais peut aussi être exécuté localement (mode `--noop`) pour valider la configuration.  
+PSR est conçu pour fonctionner en **CI/CD**, mais peut aussi être exécuté localement (mode `--noop`) pour valider la configuration.
 
-**Référence documentation PSR :**  
-- https://python-semantic-release.readthedocs.io/  
+**Référence documentation PSR :**
+- https://python-semantic-release.readthedocs.io/
 - https://github.com/python-semantic-release/python-semantic-release
 
 ---
@@ -178,7 +178,7 @@ Par défaut, PSR lit la configuration dans :
 
 - `pyproject.toml` → table `[tool.semantic_release]`
 
-PSR supporte aussi d’autres fichiers via `-c/--config` (TOML/JSON).  
+PSR supporte aussi d’autres fichiers via `-c/--config` (TOML/JSON).
 
 **Référence :** https://python-semantic-release.readthedocs.io/
 
@@ -209,7 +209,7 @@ build_command = "python -m build --sdist --wheel ."
 ## 9) Génération du CHANGELOG
 
 ### 9.1 Principe
-Avant de créer une release, PSR génère (ou met à jour) un **CHANGELOG** à partir des commits (filtrage, sections, format). Le changelog est configurable (fichier, format md/rst, templates).  
+Avant de créer une release, PSR génère (ou met à jour) un **CHANGELOG** à partir des commits (filtrage, sections, format). Le changelog est configurable (fichier, format md/rst, templates).
 
 **Référence :**
 - https://python-semantic-release.readthedocs.io/en/latest/configuration/configuration.html
@@ -230,8 +230,8 @@ PSR peut :
 - créer une **release GitHub** (release notes, assets) si un token et les permissions adéquates sont présents.
 
 Références :
-- GitHub repo PSR : https://github.com/python-semantic-release/python-semantic-release  
-- Marketplace : https://github.com/marketplace/actions/python-semantic-release  
+- GitHub repo PSR : https://github.com/python-semantic-release/python-semantic-release
+- Marketplace : https://github.com/marketplace/actions/python-semantic-release
 
 ### 10.2 Exemple minimal (conceptuel) en GitHub Actions
 > Exemple “générique” à adapter à votre repo, règles de branches, et secrets.
@@ -275,8 +275,8 @@ jobs:
 
 ## 11) Synthèse “niveau Data Engineer / Développeur IA”
 
-- **SemVer** fournit le langage commun des versions : MAJOR/MINOR/PATCH.  
-- **Conventional Commits** rend l’historique Git “machine-readable” et déclenche l’automatisation.  
+- **SemVer** fournit le langage commun des versions : MAJOR/MINOR/PATCH.
+- **Conventional Commits** rend l’historique Git “machine-readable” et déclenche l’automatisation.
 - **PSR** industrialise le tout : détecte le bump, met à jour la version, génère un changelog, crée un tag, et peut publier une release GitHub.
 
 Ce triptyque est particulièrement utile en Data/IA pour :
@@ -288,8 +288,8 @@ Ce triptyque est particulièrement utile en Data/IA pour :
 
 ## Bibliographie (liens officiels)
 
-- SemVer 2.0.0 : https://semver.org/ (FR : https://semver.org/lang/fr/spec/v2.0.0.html)  
-- Conventional Commits 1.0.0 : https://www.conventionalcommits.org/fr/v1.0.0/  
-- Python Semantic Release (docs) : https://python-semantic-release.readthedocs.io/  
-- Python Semantic Release (GitHub) : https://github.com/python-semantic-release/python-semantic-release  
-- GitHub Marketplace (PSR Action) : https://github.com/marketplace/actions/python-semantic-release  
+- SemVer 2.0.0 : https://semver.org/ (FR : https://semver.org/lang/fr/spec/v2.0.0.html)
+- Conventional Commits 1.0.0 : https://www.conventionalcommits.org/fr/v1.0.0/
+- Python Semantic Release (docs) : https://python-semantic-release.readthedocs.io/
+- Python Semantic Release (GitHub) : https://github.com/python-semantic-release/python-semantic-release
+- GitHub Marketplace (PSR Action) : https://github.com/marketplace/actions/python-semantic-release

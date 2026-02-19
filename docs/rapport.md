@@ -3,7 +3,7 @@
 ## Contexte
 Objectif: démarrer l'API `FastAPI` localement via `uv run fastapi dev app/main.py`.
 
-Pendant le diagnostic, plusieurs erreurs successives ont été rencontrées.  
+Pendant le diagnostic, plusieurs erreurs successives ont été rencontrées.
 Elles sont cohérentes avec un exercice CI/CD comportant des pièges de configuration volontairement introduits.
 
 ## Incident 1 - `DATABASE_URL` à `None` au démarrage
@@ -29,7 +29,7 @@ Après correction 1, nouveau crash:
 - `could not translate host name "db" to address`
 
 ### Cause racine
-La valeur `.env` utilisait `db` comme host PostgreSQL.  
+La valeur `.env` utilisait `db` comme host PostgreSQL.
 `db` est résolu uniquement sur le réseau Docker Compose, pas lors d'un lancement local direct.
 
 ### Correction appliquée
@@ -105,7 +105,7 @@ Clé `version` devenue obsolète dans la syntaxe Compose moderne.
 - `.env.example`
 
 ## Conclusion
-Le démarrage de l'API est désormais fonctionnel.  
+Le démarrage de l'API est désormais fonctionnel.
 Les erreurs rencontrées sont typiques d'un scénario de test CI/CD:
 - gestion d'environnement incomplète,
 - divergence local vs Docker,
