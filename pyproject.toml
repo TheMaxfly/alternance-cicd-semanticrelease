@@ -18,6 +18,7 @@ dev = [
     "bandit>=1.9.3",
     "diagrams>=0.24.4",
     "mypy>=1.19.1",
+    "pre-commit>=4.4.0",
     "pytest>=9.0.2",
     "pytest-cov>=6.0.0",
     "python-semantic-release>=10.5.3",

@@ -41,18 +41,18 @@ Points positifs:
 
 ### Problèmes fonctionnels majeurs
 
-1. Signature de `POST /items/` incorrecte  
+1. Signature de `POST /items/` incorrecte
 Référence: `app/routes/items.py:31-33`
 - `create_item(item_data, db)` ne typpe pas `item_data` en `ItemCreate`.
 - `db` n'est pas injecté via `Depends(get_db)`.
 - Effet attendu: contrat OpenAPI dégradé, validation Pydantic absente, comportement runtime potentiellement erratique.
 
-2. `item_id` non typé sur `GET /items/{item_id}`  
+2. `item_id` non typé sur `GET /items/{item_id}`
 Référence: `app/routes/items.py:20-22`
 - `item_id` sans type -> pas de validation FastAPI (422) en amont.
 - Risque de conversions implicites et erreurs de qualité d'entrée.
 
-3. Pagination non bornée malgré constante déclarée  
+3. Pagination non bornée malgré constante déclarée
 Référence: `app/routes/items.py:12`, `app/routes/items.py:15-17`
 - `MAX_ITEMS_PER_PAGE = 1000` est défini mais jamais appliqué.
 - Risque de requêtes lourdes (`limit` arbitrairement grand) et surcharge mémoire.
@@ -67,7 +67,7 @@ Référence: `app/models/item.py:4-9`
 
 ### Risques data
 
-1. Usage de `float` pour un prix  
+1. Usage de `float` pour un prix
 Références: `app/models/item.py:9`, `app/schemas/item.py:6`, `app/schemas/item.py:15`
 - Le type flottant introduit des erreurs d'arrondi (IEEE 754).
 - En contexte analytique/financier, préférer `Decimal` + `NUMERIC(p,s)`.
@@ -140,7 +140,7 @@ Impacts data engineering:
 
 ### Problèmes critiques
 
-1. Secrets en dur dans le code  
+1. Secrets en dur dans le code
 Références: `app/main.py:41-42`
 - Exposition directe de clé/API token-like.
 - Risque de fuite secret, non-conformité sécurité de base.
@@ -234,7 +234,7 @@ Ces marqueurs sont souvent intentionnels en exercice CI/CD pour vérifier l'effi
 
 ## 13. Conclusion
 
-L'API fonctionne désormais au démarrage, mais son niveau de maturité reste **prototype pédagogique**.  
+L'API fonctionne désormais au démarrage, mais son niveau de maturité reste **prototype pédagogique**.
 Les anomalies observées (typage incomplet, secrets en dur, absence de tests, défauts de robustesse data) correspondent à des patterns fréquemment introduits dans des exercices CI/CD pour valider la capacité de diagnostic.
 
 Avec les correctifs P0/P1 proposés, l'API peut atteindre un niveau **pré-production** cohérent pour un contexte Data Engineer.

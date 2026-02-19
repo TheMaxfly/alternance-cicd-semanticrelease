@@ -1,20 +1,20 @@
-# VEILLE_UV.md — Mission 2 : Maîtriser uv (1h)  
-**Version :** 1.0  
-**Date :** 2026-02-15 (Europe/Paris)  
-**Profil visé :** Data Analyste / Data Engineer / Développeur IA  
+# VEILLE_UV.md — Mission 2 : Maîtriser uv (1h)
+**Version :** 1.0
+**Date :** 2026-02-15 (Europe/Paris)
+**Profil visé :** Data Analyste / Data Engineer / Développeur IA
 **Objectif pédagogique :** Comprendre **uv**, ses différences avec pip/poetry/pipenv, sa relation à `pyproject.toml` (dépendances, groupes, packaging), et sa mise en œuvre dans **GitHub Actions** (installation + cache) avec de bonnes pratiques “industrie”.
 
 ---
 
 ## Acronymes (développés dès le début)
 
-- **CI/CD** : *Continuous Integration / Continuous Delivery (ou Deployment)* — intégration continue + livraison/déploiement continu.  
-- **CLI** : *Command Line Interface* — interface en ligne de commande.  
-- **PEP** : *Python Enhancement Proposal* — standard/proposition officielle de l’écosystème Python.  
-- **PEP 517** : standard du build Python (définit l’interface “build backend”).  
-- **PEP 621** : standard des métadonnées projet dans `pyproject.toml`.  
-- **VCS** : *Version Control System* — système de gestion de versions (ex. Git).  
-- **Wheel** : paquet Python préconstruit (`.whl`) généralement rapide à installer.  
+- **CI/CD** : *Continuous Integration / Continuous Delivery (ou Deployment)* — intégration continue + livraison/déploiement continu.
+- **CLI** : *Command Line Interface* — interface en ligne de commande.
+- **PEP** : *Python Enhancement Proposal* — standard/proposition officielle de l’écosystème Python.
+- **PEP 517** : standard du build Python (définit l’interface “build backend”).
+- **PEP 621** : standard des métadonnées projet dans `pyproject.toml`.
+- **VCS** : *Version Control System* — système de gestion de versions (ex. Git).
+- **Wheel** : paquet Python préconstruit (`.whl`) généralement rapide à installer.
 - **sdist** : distribution source (`.tar.gz`) nécessitant parfois un build lors de l’installation.
 
 ---
@@ -22,14 +22,14 @@
 ## 0) Ressources (obligatoires + documentation officielle)
 
 ### Ressources obligatoires
-- **Documentation uv (Astral)** : installation + concepts projets + dépendances + cache. (https://docs.astral.sh/uv/getting-started/installation/)  
-- **uv — GitHub Integration** (guide officiel “Using uv in GitHub Actions”). (https://docs.astral.sh/uv/guides/integration/github/)  
-- **uv — Build Backend** (documentation officielle `uv_build`). (https://docs.astral.sh/uv/concepts/build-backend/)  
+- **Documentation uv (Astral)** : installation + concepts projets + dépendances + cache. (https://docs.astral.sh/uv/getting-started/installation/)
+- **uv — GitHub Integration** (guide officiel “Using uv in GitHub Actions”). (https://docs.astral.sh/uv/guides/integration/github/)
+- **uv — Build Backend** (documentation officielle `uv_build`). (https://docs.astral.sh/uv/concepts/build-backend/)
 - **uv Tutorial (vidéo)** : prise en main (workflows, commandes). *(Référence vidéo fournie dans le brief — à ajouter dans votre bibliographie interne si vous devez tracer l’URL exacte utilisée.)*
 
 ### Références complémentaires (officielles)
-- **Action GitHub officielle** `astral-sh/setup-uv` (README + options). (https://github.com/astral-sh/setup-uv)  
-- **Settings uv** (positionnement de `tool.uv.dev-dependencies` vs `dependency-groups`). (https://docs.astral.sh/uv/reference/settings/)  
+- **Action GitHub officielle** `astral-sh/setup-uv` (README + options). (https://github.com/astral-sh/setup-uv)
+- **Settings uv** (positionnement de `tool.uv.dev-dependencies` vs `dependency-groups`). (https://docs.astral.sh/uv/reference/settings/)
 
 ---
 
@@ -55,7 +55,7 @@ uv répond à ce besoin via :
 ## 2) En quoi uv est différent de pip / poetry / pipenv ?
 
 ### 2.1 Différence avec pip (approche “outil de base”)
-- **pip** est un installateur de paquets, orienté installation, mais ne fournit pas à lui seul un cadre “projet” complet (workflow projet, cache CI structuré, recommandations d’intégration, etc.).  
+- **pip** est un installateur de paquets, orienté installation, mais ne fournit pas à lui seul un cadre “projet” complet (workflow projet, cache CI structuré, recommandations d’intégration, etc.).
 - uv propose un **cadre projet** plus explicite : configuration projet, packaging (si nécessaire), cache, guide CI, et une logique de synchronisation d’environnement.
 
 ### 2.2 Différence avec Poetry / Pipenv (approche “gestion de projet”)
@@ -78,15 +78,15 @@ uv fournit un corpus officiel de pratiques CI (cache + prune, patterns), utile p
 ## 3) Quels sont les avantages de uv ?
 
 ### 3.1 Avantages techniques (niveau professionnel)
-1. **Reproductibilité** : capacité à reconstruire un environnement cohérent via synchronisation (et lockfile), indispensable en CI/CD.  
-2. **Performance CI** : un **cache** explicitement documenté (et recommandé), particulièrement utile pour stacks Data/IA lourdes.  
-3. **Gouvernance des dépendances** : séparation claire entre dépendances publiées et dépendances de développement via **dependency groups** (approche recommandée).  
-4. **Packaging intégré** : possibilité d’utiliser `uv_build` pour des projets pure Python (wheels/sdist), facilitant la distribution interne.  
+1. **Reproductibilité** : capacité à reconstruire un environnement cohérent via synchronisation (et lockfile), indispensable en CI/CD.
+2. **Performance CI** : un **cache** explicitement documenté (et recommandé), particulièrement utile pour stacks Data/IA lourdes.
+3. **Gouvernance des dépendances** : séparation claire entre dépendances publiées et dépendances de développement via **dependency groups** (approche recommandée).
+4. **Packaging intégré** : possibilité d’utiliser `uv_build` pour des projets pure Python (wheels/sdist), facilitant la distribution interne.
 5. **Intégration GitHub Actions “ready-to-use”** : guide officiel + action officielle pour installer uv + support du cache.
 
 ### 3.2 Avantages organisationnels (Data/IA)
-- Moins d’écarts entre postes : même structure `pyproject.toml` + mêmes groupes.  
-- CI plus rapide → feedback plus court → meilleure productivité.  
+- Moins d’écarts entre postes : même structure `pyproject.toml` + mêmes groupes.
+- CI plus rapide → feedback plus court → meilleure productivité.
 - Packaging et release plus propres (artefacts versionnés, traçabilité).
 
 ---
@@ -111,14 +111,14 @@ uv documente des éléments clés sur la configuration projet et le packaging (q
 - `project.optional-dependencies` : variantes optionnelles (ex. `ml`, `gpu`, etc.) si vous publiez un package.
 
 #### 4.2.3 Dépendances de développement (groupes)
-- `dependency-groups.dev`, `dependency-groups.test`, `dependency-groups.lint`, etc.  
+- `dependency-groups.dev`, `dependency-groups.test`, `dependency-groups.lint`, etc.
 uv indique que l’usage de `tool.uv.dev-dependencies` **n’est plus recommandé** et qu’il faut préférer `dependency-groups.dev` (standardisé). La doc précise aussi comment ces champs sont combinés si les deux existent.
 
-> **Recommandation Data/IA**  
-> - `dev` : notebooks/outils locaux (optionnel)  
-> - `test` : pytest, fixtures  
-> - `lint` : ruff, mypy  
-> - `dq` : Great Expectations / dbt tests (selon stack)  
+> **Recommandation Data/IA**
+> - `dev` : notebooks/outils locaux (optionnel)
+> - `test` : pytest, fixtures
+> - `lint` : ruff, mypy
+> - `dq` : Great Expectations / dbt tests (selon stack)
 > Résultat : CI plus rapide et images plus légères (on n’installe que ce qui est utile à l’étape).
 
 ### 4.3 Exemple `pyproject.toml` (Data/IA : runtime + groupes + packaging)
@@ -158,8 +158,8 @@ Dans une chaîne **CI/CD**, le build backend devient essentiel dès qu’on veut
 - produire un artefact versionné (wheel) pour déploiement/réutilisation,
 - standardiser le build (reproductibilité, auditabilité).
 
-> **Implication pratique (Data/IA)**  
-> - **Application** (ETL/ELT, API, orchestration) : packaging parfois optionnel ; livrable = image Docker / environnement figé.  
+> **Implication pratique (Data/IA)**
+> - **Application** (ETL/ELT, API, orchestration) : packaging parfois optionnel ; livrable = image Docker / environnement figé.
 > - **Bibliothèque réutilisable** : packaging stratégique ; livrable = wheel versionnée.
 
 ### 4.4.2 `uv_build` : objectifs, configuration et limites
@@ -347,9 +347,9 @@ jobs:
 Objectif : réduire le temps d’installation et la surface d’attaque en CI.
 
 Exemples :
-- `lint` : ruff, mypy  
-- `test` : pytest, pytest-cov  
-- `dq` : great-expectations (ou dbt tests selon stack)  
+- `lint` : ruff, mypy
+- `test` : pytest, pytest-cov
+- `dq` : great-expectations (ou dbt tests selon stack)
 - `docs` : mkdocs (si docs auto)
 
 ### 7.2 Éviter la dépendance à la production dans la CI
@@ -378,7 +378,7 @@ uv est particulièrement pertinent en Data/IA car il combine :
 - et un **backend de build** officiel pour projets pure Python (`uv_build`).
 
 Pour une mise en production “niveau professionnel”, l’adoption uv doit être cadrée par :
-1. un `pyproject.toml` structuré (runtime vs groups),  
-2. un lockfile versionné et une politique de sync reproductible en CI,  
-3. une stratégie de cache explicite (avec `prune --ci` si besoin),  
+1. un `pyproject.toml` structuré (runtime vs groups),
+2. un lockfile versionné et une politique de sync reproductible en CI,
+3. une stratégie de cache explicite (avec `prune --ci` si besoin),
 4. une stratégie de livrables (wheel pour libs internes, Docker pour services/pipelines).

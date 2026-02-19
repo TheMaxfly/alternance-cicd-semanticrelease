@@ -1,4 +1,3 @@
-import os
 from contextlib import asynccontextmanager
 from typing import Any
 
@@ -33,7 +32,3 @@ def root() -> dict[str, str]:
 @app.get("/health")
 def health() -> dict[str, str]:
     return {"status": "healthy"}
-
-
-SECRET = os.environ.get("APP_SECRET", "")
-API_KEY = os.environ.get("API_KEY", "")

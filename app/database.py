@@ -5,8 +5,8 @@ et fournit une fonction générateur pour obtenir des sessions de base de donné
 """
 
 import os
+from collections.abc import Generator
 from pathlib import Path
-from typing import Any
 
 from dotenv import load_dotenv
 from sqlmodel import Session, create_engine
@@ -25,6 +25,6 @@ POOL_SIZE = 10
 engine = create_engine(DATABASE_URL)
 
 
-def get_db() -> Any:
+def get_db() -> Generator[Session]:
     with Session(engine) as session:
         yield session

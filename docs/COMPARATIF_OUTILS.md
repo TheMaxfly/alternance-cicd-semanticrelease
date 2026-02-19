@@ -1,14 +1,14 @@
 # COMPARATIF_OUTILS.md
 
 ## Acronymes (développés)
-- **IA** : Intelligence Artificielle  
-- **CI/CD** : Intégration Continue / Déploiement Continu  
-- **IDE** : Integrated Development Environment (en français : Environnement de Développement Intégré)  
-- **AST** : Abstract Syntax Tree (en français : Arbre de Syntaxe Abstraite)  
-- **SAST** : Static Application Security Testing (analyse de sécurité statique du code)  
-- **DAST** : Dynamic Application Security Testing (analyse dynamique, “boîte noire”)  
-- **SBOM** : Software Bill of Materials (inventaire logiciel des dépendances/composants)  
-- **CVE** : Common Vulnerabilities and Exposures (identifiant standard de vulnérabilités)  
+- **IA** : Intelligence Artificielle
+- **CI/CD** : Intégration Continue / Déploiement Continu
+- **IDE** : Integrated Development Environment (en français : Environnement de Développement Intégré)
+- **AST** : Abstract Syntax Tree (en français : Arbre de Syntaxe Abstraite)
+- **SAST** : Static Application Security Testing (analyse de sécurité statique du code)
+- **DAST** : Dynamic Application Security Testing (analyse dynamique, “boîte noire”)
+- **SBOM** : Software Bill of Materials (inventaire logiciel des dépendances/composants)
+- **CVE** : Common Vulnerabilities and Exposures (identifiant standard de vulnérabilités)
 - **IaC** : Infrastructure as Code (infrastructure décrite par du code)
 
 ---
@@ -38,8 +38,8 @@ Chaque outil est évalué sur :
 - **Pylint** (très complet, analyse plus poussée, plus lent)
 
 ### Analyse
-- **Ruff** : vise une exécution “ordre(s) de grandeur” plus rapide et remplace de nombreux checkers/linters historiques via une CLI unique. Très bon pour du feedback immédiat, idéal en pre-commit et en CI.  
-- **Flake8** : colle historiquement plusieurs outils (pyflakes, pycodestyle, mccabe) et dépend fortement de l’écosystème de plugins. Solide, mais plus fragmenté (multiples plugins, configs).  
+- **Ruff** : vise une exécution “ordre(s) de grandeur” plus rapide et remplace de nombreux checkers/linters historiques via une CLI unique. Très bon pour du feedback immédiat, idéal en pre-commit et en CI.
+- **Flake8** : colle historiquement plusieurs outils (pyflakes, pycodestyle, mccabe) et dépend fortement de l’écosystème de plugins. Solide, mais plus fragmenté (multiples plugins, configs).
 - **Pylint** : analyse statique riche (code smells, refactor hints, conventions), mais le coût en temps (et parfois la verbosité) est plus élevé. Très utile quand on veut une analyse “profonde” et une politique de qualité stricte.
 
 ### Recommandation “pro”
@@ -55,12 +55,12 @@ Chaque outil est évalué sur :
 - **autopep8** (plus permissif, corrections progressives)
 
 ### Analyse
-- **Black** : “uncompromising formatter”, configuration volontairement limitée, très bon pour éliminer les débats de style.  
-- **Ruff format** : conçu comme un **remplaçant drop-in** de Black et axé sur la performance, pratique si vous adoptez déjà Ruff pour le lint.  
+- **Black** : “uncompromising formatter”, configuration volontairement limitée, très bon pour éliminer les débats de style.
+- **Ruff format** : conçu comme un **remplaçant drop-in** de Black et axé sur la performance, pratique si vous adoptez déjà Ruff pour le lint.
 - **autopep8** : utile pour migrations incrémentales et codebases legacy où l’on préfère des changements plus “petits”, mais moins standardisant (et moins “définitif” comme style d’équipe).
 
 ### Recommandation “pro”
-- **Choix principal : Ruff format** si vous standardisez sur Ruff (outil unique, vitesse, intégration).  
+- **Choix principal : Ruff format** si vous standardisez sur Ruff (outil unique, vitesse, intégration).
 - **Alternative : Black** si votre écosystème/outillage/équipe est déjà très “Black-first” (ou si vous voulez la compatibilité maximale attendue par l’open source).
 
 ---
@@ -73,13 +73,13 @@ Chaque outil est évalué sur :
 - **Pyre** (orienté perf / gros codebases, checks incrémentaux)
 
 ### Analyse
-- **Mypy** : référence de l’écosystème, très documenté, écosystème mature.  
-- **Pyright** : conçu avec la performance en tête ; souvent perçu comme plus rapide sur de grosses bases, et l’intégration IDE (notamment VS Code) est un point fort.  
+- **Mypy** : référence de l’écosystème, très documenté, écosystème mature.
+- **Pyright** : conçu avec la performance en tête ; souvent perçu comme plus rapide sur de grosses bases, et l’intégration IDE (notamment VS Code) est un point fort.
 - **Pyre** : type checker performant, incrémental, pensé pour des codebases très grandes ; courbe d’adoption/config parfois plus “entreprise”.
 
 ### Recommandation “pro”
-- **Choix principal : Pyright** (DX + vitesse + IDE).  
-- **Alternative : Mypy** si vous dépendez d’un écosystème plugins / conventions déjà mypy.  
+- **Choix principal : Pyright** (DX + vitesse + IDE).
+- **Alternative : Mypy** si vous dépendez d’un écosystème plugins / conventions déjà mypy.
 - **Pyre** : pertinent dans un contexte “très grosse base” + équipe déjà habituée.
 
 ---
@@ -91,11 +91,11 @@ Chaque outil est évalué sur :
 - **unittest** (stdlib, style JUnit)
 
 ### Analyse
-- **pytest** : énorme écosystème plugins, fixtures puissantes (setup modulaire), très bonne ergonomie (assert introspection / rewriting).  
+- **pytest** : énorme écosystème plugins, fixtures puissantes (setup modulaire), très bonne ergonomie (assert introspection / rewriting).
 - **unittest** : standard library, stable, mais plus verbeux et moins “ergonomique” pour les usages modernes (fixtures/paramétrage/plugins moins riches).
 
 ### Recommandation “pro”
-- **Choix principal : pytest** (rapidité de dev, maintenabilité, plugins).  
+- **Choix principal : pytest** (rapidité de dev, maintenabilité, plugins).
 - **unittest** reste utile si vous voulez zéro dépendance externe ou pour compat/legacy.
 
 ---
@@ -109,13 +109,13 @@ Chaque outil est évalué sur :
 - **Trivy** : scan containers / repos / fichiers, vulnérabilités + misconfig + secrets + SBOM
 
 ### Analyse
-- **Bandit** : efficace pour repérer des patterns de code risqués (ex : usage dangereux de fonctions, crypto faible), mais ne remplace pas une analyse de flux avancée.  
-- **Safety** : focalisé dépendances Python, utile en CI (requirements/lockfiles).  
-- **Snyk** : très complet, mais coût/licence. Avantage : console, priorisation, intégration entreprise.  
+- **Bandit** : efficace pour repérer des patterns de code risqués (ex : usage dangereux de fonctions, crypto faible), mais ne remplace pas une analyse de flux avancée.
+- **Safety** : focalisé dépendances Python, utile en CI (requirements/lockfiles).
+- **Snyk** : très complet, mais coût/licence. Avantage : console, priorisation, intégration entreprise.
 - **Trivy** : excellent dans les chaînes “cloud-native” (images, SBOM, misconfigs, secrets, IaC), très adapté si vous dockerisez et/ou déployez sur Kubernetes.
 
 ### Recommandation “pro”
-- Si stack “Python + Docker” : **Bandit + Safety + Trivy** (excellent ratio coût/couverture).  
+- Si stack “Python + Docker” : **Bandit + Safety + Trivy** (excellent ratio coût/couverture).
 - Si entreprise déjà outillée / besoin gouvernance : **Snyk** (payant) peut remplacer/compléter.
 
 ---
@@ -143,25 +143,25 @@ Chaque outil est évalué sur :
 ---
 
 # Choix final recommandé (stack “dev IA / data engineering”)
-1) **Ruff (lint + fix) + Ruff format** : vitesse + standardisation + moins d’outils à maintenir.  
-2) **Pyright** : feedback type rapide, très bon en IDE et CI.  
-3) **pytest** : productivité et maintenabilité tests.  
+1) **Ruff (lint + fix) + Ruff format** : vitesse + standardisation + moins d’outils à maintenir.
+2) **Pyright** : feedback type rapide, très bon en IDE et CI.
+3) **pytest** : productivité et maintenabilité tests.
 4) **Sécurité** : **Bandit + Safety + Trivy** (si Docker) ; **Snyk** si contexte entreprise/budget et besoin de gouvernance.
 
 ---
 
 ## Sources (docs officielles / références)
-- Ruff (docs) : https://docs.astral.sh/ruff/  
-- Ruff formatter : https://docs.astral.sh/ruff/formatter/  
-- Black : https://black.readthedocs.io/  
-- Flake8 : https://flake8.pycqa.org/  
-- Pylint : https://pylint.readthedocs.io/  
-- Mypy : https://mypy-lang.org/  ; docs : https://mypy.readthedocs.io/  
-- Pyright (mypy comparison) : https://github.com/microsoft/pyright/blob/main/docs/mypy-comparison.md  
-- Pyre : https://pyre-check.org/  
-- pytest : https://docs.pytest.org/  
-- unittest : https://docs.python.org/3/library/unittest.html  
-- Bandit : https://bandit.readthedocs.io/  
-- Safety CLI : https://docs.safetycli.com/  
-- Snyk (docs) : https://docs.snyk.io/ ; pricing : https://snyk.io/plans/  
+- Ruff (docs) : https://docs.astral.sh/ruff/
+- Ruff formatter : https://docs.astral.sh/ruff/formatter/
+- Black : https://black.readthedocs.io/
+- Flake8 : https://flake8.pycqa.org/
+- Pylint : https://pylint.readthedocs.io/
+- Mypy : https://mypy-lang.org/  ; docs : https://mypy.readthedocs.io/
+- Pyright (mypy comparison) : https://github.com/microsoft/pyright/blob/main/docs/mypy-comparison.md
+- Pyre : https://pyre-check.org/
+- pytest : https://docs.pytest.org/
+- unittest : https://docs.python.org/3/library/unittest.html
+- Bandit : https://bandit.readthedocs.io/
+- Safety CLI : https://docs.safetycli.com/
+- Snyk (docs) : https://docs.snyk.io/ ; pricing : https://snyk.io/plans/
 - Trivy (repo) : https://github.com/aquasecurity/trivy ; docs : https://trivy.dev/docs/
