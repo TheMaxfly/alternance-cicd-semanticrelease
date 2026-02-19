@@ -23,6 +23,7 @@ def get_items(
 
 @router.get("/{item_id}", response_model=ItemResponse)
 def get_item(item_id: int, db: Session = Depends(get_db)) -> Item:
+    """Récupère un item par son identifiant."""
     item = ItemService.get_by_id(db, item_id)
     if not item:
         raise HTTPException(

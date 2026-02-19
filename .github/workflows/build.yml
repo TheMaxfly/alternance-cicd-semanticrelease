@@ -1,0 +1,56 @@
+name: Build & Push Docker Image
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main]
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # Active Docker Buildx : moteur de build avancé (cache, multi-arch)
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      # Authentification sur GHCR avec le token GitHub automatique
+      - name: Log in to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      # Génère les tags et labels automatiquement :
+      # - branch name (ex: main, develop)
+      # - SHA du commit (ex: sha-abc1234)
+      # - latest (si push sur main)
+      - name: Extract metadata
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+
+      # Build l'image et push vers GHCR
+      # Le cache GitHub Actions évite de reconstruire les layers inchangées
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          push: ${{ github.event_name != 'pull_request' }}
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
